@@ -21,10 +21,11 @@
     label.field { display: block; margin-top: 1.25rem; font-weight: 600; }
     input[type=text], input[type=tel], input[type=email] { width: 100%; margin-top: .35rem; padding: .6rem .7rem;
       border: 1px solid var(--rule); border-radius: 8px; font-size: 1rem; background: #fff; color: var(--ink); }
-    .consent { display: flex; gap: .6rem; align-items: flex-start; margin-top: 1.5rem; font-weight: 400;
+    .consent { display: flex; gap: .6rem; align-items: flex-start; margin-top: 1rem; font-weight: 400;
       background: #fff; border: 1px solid var(--rule); border-radius: 10px; padding: 1rem 1.1rem; }
     .consent input { margin-top: .35rem; width: 18px; height: 18px; flex: 0 0 auto; }
     .consent span { font-size: .95rem; color: var(--ink); }
+    .links { margin-top: 1rem; font-size: .95rem; }
     .note { color: var(--ink-muted); font-size: .9rem; margin-top: 1rem; }
     button { margin-top: 1.5rem; background: var(--blue-deep); color: #fff; border: 0; border-radius: 8px;
       padding: .7rem 1.4rem; font-size: 1rem; font-weight: 600; cursor: pointer; }
@@ -58,17 +59,27 @@
       </label>
 
       <label class="consent">
-        <input type="checkbox" name="sms_consent" id="sms_consent" />
-        <span>I consent to receive transactional text messages from AGFHUB &mdash; such as job
-        application and onboarding links, appointment and shift reminders, and account notifications
-        &mdash; at the phone number provided. Message frequency may vary. Message &amp; data rates
-        may apply. Reply <strong>HELP</strong> for help or <strong>STOP</strong> to opt out. See our
-        <a href="privacy-policy.html">Privacy Policy</a> and
-        <a href="sms-terms.html">SMS Terms &amp; Conditions</a>.</span>
+        <input type="checkbox" name="sms_transactional" id="sms_transactional" />
+        <span>I consent to receive <strong>transactional</strong> text messages from AGFHUB
+        (IP Independent Services INC) &mdash; such as job application and onboarding links,
+        appointment and shift reminders, and account notifications &mdash; at the phone number
+        provided. Message frequency may vary. Message &amp; data rates may apply. Reply
+        <strong>HELP</strong> for help or <strong>STOP</strong> to opt out.</span>
       </label>
 
-      <p class="note">Text-message consent is optional. It is not required to submit this form and is
-      not a condition of employment.</p>
+      <label class="consent">
+        <input type="checkbox" name="sms_marketing" id="sms_marketing" />
+        <span>I consent to receive <strong>marketing and promotional</strong> text messages from
+        AGFHUB (IP Independent Services INC) at the phone number provided. Message frequency may vary.
+        Message &amp; data rates may apply. Reply <strong>HELP</strong> for help or
+        <strong>STOP</strong> to opt out.</span>
+      </label>
+
+      <p class="links">See our <a href="privacy-policy.html">Privacy Policy</a> and
+      <a href="sms-terms.html">SMS Terms &amp; Conditions</a>.</p>
+
+      <p class="note">Both checkboxes are optional. Neither is required to submit this form, and
+      text-message consent is not a condition of employment.</p>
 
       <button type="submit">Sign up</button>
       <p id="msg" role="status"></p>
@@ -88,10 +99,15 @@
       var msg = document.getElementById('msg');
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var consent = document.getElementById('sms_consent');
+        var t = document.getElementById('sms_transactional').checked;
+        var m = document.getElementById('sms_marketing').checked;
         msg.style.color = '#0E3D66';
-        if (consent.checked) {
-          msg.textContent = "Thank you! Your information has been received and you've opted in to AGFHUB text messages. Reply STOP at any time to opt out.";
+        if (t && m) {
+          msg.textContent = "Thank you! Your information has been received. You've opted in to AGFHUB service and promotional texts. Reply STOP at any time to opt out.";
+        } else if (t) {
+          msg.textContent = "Thank you! Your information has been received. You've opted in to AGFHUB service text messages. Reply STOP at any time to opt out.";
+        } else if (m) {
+          msg.textContent = "Thank you! Your information has been received. You've opted in to AGFHUB promotional text messages. Reply STOP at any time to opt out.";
         } else {
           msg.textContent = "Thank you! Your information has been received. You chose not to receive text messages.";
         }
