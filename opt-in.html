@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Text Message Sign-Up — AGFHUB</title>
+  <meta name="description" content="Sign up to receive text messages from AGFHUB about your job application, onboarding, and shifts." />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --blue: #2598D3; --blue-dark: #1670B0; --blue-deep: #0E3D66;
+      --paper: #F7F4EE; --ink: #12263A; --ink-muted: #576373; --rule: #E6DFCE;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink);
+           font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .wrap { max-width: 560px; margin: 0 auto; padding: 3rem 1.25rem; }
+    .brand { font-size: 1.6rem; font-weight: 800; letter-spacing: .02em; color: var(--blue-deep); }
+    .tag { color: var(--blue-dark); font-style: italic; margin: .15rem 0 2rem; }
+    h1 { font-size: 1.4rem; color: var(--blue-deep); }
+    label { display: block; margin-top: 1.25rem; font-weight: 600; }
+    input[type=text], input[type=tel] { width: 100%; margin-top: .35rem; padding: .6rem .7rem;
+      border: 1px solid var(--rule); border-radius: 8px; font-size: 1rem; background: #fff; color: var(--ink); }
+    .consent { display: flex; gap: .6rem; align-items: flex-start; margin-top: 1.5rem; font-weight: 400;
+      background: #fff; border: 1px solid var(--rule); border-radius: 10px; padding: 1rem 1.1rem; }
+    .consent input { margin-top: .35rem; width: 18px; height: 18px; flex: 0 0 auto; }
+    .consent span { font-size: .95rem; color: var(--ink); }
+    .note { color: var(--ink-muted); font-size: .9rem; margin-top: 1rem; }
+    button { margin-top: 1.5rem; background: var(--blue-deep); color: #fff; border: 0; border-radius: 8px;
+      padding: .7rem 1.4rem; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    button:hover { background: var(--blue-dark); }
+    #msg { margin-top: 1rem; font-weight: 600; }
+    a { color: var(--blue-dark); }
+    footer { border-top: 1px solid var(--rule); margin-top: 2.5rem; padding-top: 1rem; font-size: .85rem; color: var(--ink-muted); }
+    footer a { margin-right: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">AGFHUB</div>
+    <div class="tag">connecting workflows</div>
+
+    <h1>Text Message Sign-Up</h1>
+    <p>Sign up to receive text messages from AGFHUB about your job application, onboarding, and
+    shifts.</p>
+
+    <form id="optin" novalidate>
+      <label>Full name
+        <input type="text" name="name" autocomplete="name" required />
+      </label>
+      <label>Mobile number
+        <input type="tel" name="phone" autocomplete="tel" placeholder="(555) 555-5555" required />
+      </label>
+
+      <label class="consent">
+        <input type="checkbox" name="sms_consent" id="sms_consent" />
+        <span>I agree to receive text messages from AGFHUB about my application, onboarding, and
+        shifts (document links, appointment and shift reminders, and account notifications).
+        Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong> to
+        opt out, <strong>HELP</strong> for help. See our
+        <a href="privacy-policy.html">Privacy Policy</a> and
+        <a href="sms-terms.html">SMS Terms &amp; Conditions</a>.</span>
+      </label>
+
+      <p class="note">Consent to receive text messages is not a condition of employment.</p>
+
+      <button type="submit">Sign up</button>
+      <p id="msg" role="status"></p>
+    </form>
+
+    <footer>
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="sms-terms.html">SMS Terms</a>
+      <div style="margin-top:.6rem;">&copy; 2026 AGFHUB, a service of IP Independent Services.</div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var form = document.getElementById('optin');
+      var msg = document.getElementById('msg');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var consent = document.getElementById('sms_consent');
+        if (!consent.checked) {
+          msg.style.color = '#B00020';
+          msg.textContent = 'Please check the box to agree to receive text messages before signing up.';
+          return;
+        }
+        msg.style.color = '#0E3D66';
+        msg.textContent = "Thank you! You've signed up for AGFHUB text messages. Reply STOP at any time to opt out.";
+        form.querySelector('button').disabled = true;
+      });
+    })();
+  </script>
+</body>
+</html>
