@@ -18,8 +18,8 @@
     .brand { font-size: 1.6rem; font-weight: 800; letter-spacing: .02em; color: var(--blue-deep); }
     .tag { color: var(--blue-dark); font-style: italic; margin: .15rem 0 2rem; }
     h1 { font-size: 1.4rem; color: var(--blue-deep); }
-    label { display: block; margin-top: 1.25rem; font-weight: 600; }
-    input[type=text], input[type=tel] { width: 100%; margin-top: .35rem; padding: .6rem .7rem;
+    label.field { display: block; margin-top: 1.25rem; font-weight: 600; }
+    input[type=text], input[type=tel], input[type=email] { width: 100%; margin-top: .35rem; padding: .6rem .7rem;
       border: 1px solid var(--rule); border-radius: 8px; font-size: 1rem; background: #fff; color: var(--ink); }
     .consent { display: flex; gap: .6rem; align-items: flex-start; margin-top: 1.5rem; font-weight: 400;
       background: #fff; border: 1px solid var(--rule); border-radius: 10px; padding: 1rem 1.1rem; }
@@ -41,28 +41,34 @@
     <div class="tag">connecting workflows</div>
 
     <h1>Text Message Sign-Up</h1>
-    <p>Sign up to receive text messages from AGFHUB about your job application, onboarding, and
-    shifts.</p>
+    <p>Join AGFHUB to get text updates about your job application, onboarding, and shifts.</p>
 
-    <form id="optin" novalidate>
-      <label>Full name
-        <input type="text" name="name" autocomplete="name" required />
+    <form id="optin">
+      <label class="field">First name
+        <input type="text" name="first_name" autocomplete="given-name" />
       </label>
-      <label>Mobile number
+      <label class="field">Last name
+        <input type="text" name="last_name" autocomplete="family-name" />
+      </label>
+      <label class="field">Phone *
         <input type="tel" name="phone" autocomplete="tel" placeholder="(555) 555-5555" required />
+      </label>
+      <label class="field">Email *
+        <input type="email" name="email" autocomplete="email" required />
       </label>
 
       <label class="consent">
         <input type="checkbox" name="sms_consent" id="sms_consent" />
-        <span>I agree to receive text messages from AGFHUB about my application, onboarding, and
-        shifts (document links, appointment and shift reminders, and account notifications).
-        Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong> to
-        opt out, <strong>HELP</strong> for help. See our
+        <span>I consent to receive transactional text messages from AGFHUB &mdash; such as job
+        application and onboarding links, appointment and shift reminders, and account notifications
+        &mdash; at the phone number provided. Message frequency may vary. Message &amp; data rates
+        may apply. Reply <strong>HELP</strong> for help or <strong>STOP</strong> to opt out. See our
         <a href="privacy-policy.html">Privacy Policy</a> and
         <a href="sms-terms.html">SMS Terms &amp; Conditions</a>.</span>
       </label>
 
-      <p class="note">Consent to receive text messages is not a condition of employment.</p>
+      <p class="note">Text-message consent is optional. It is not required to submit this form and is
+      not a condition of employment.</p>
 
       <button type="submit">Sign up</button>
       <p id="msg" role="status"></p>
@@ -83,13 +89,12 @@
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var consent = document.getElementById('sms_consent');
-        if (!consent.checked) {
-          msg.style.color = '#B00020';
-          msg.textContent = 'Please check the box to agree to receive text messages before signing up.';
-          return;
-        }
         msg.style.color = '#0E3D66';
-        msg.textContent = "Thank you! You've signed up for AGFHUB text messages. Reply STOP at any time to opt out.";
+        if (consent.checked) {
+          msg.textContent = "Thank you! Your information has been received and you've opted in to AGFHUB text messages. Reply STOP at any time to opt out.";
+        } else {
+          msg.textContent = "Thank you! Your information has been received. You chose not to receive text messages.";
+        }
         form.querySelector('button').disabled = true;
       });
     })();
